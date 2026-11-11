@@ -41,6 +41,9 @@ jobs:
 
       - name: Install prerequisites
         run: |
+          # azure.archive.ubuntu.com unreachable: use the official Ubuntu mirror
+          echo "http://archive.ubuntu.com/ubuntu/" | sudo tee /etc/apt/apt-mirrors.txt
+          echo 'Acquire::http::Timeout "30"; Acquire::Retries "3";' | sudo tee /etc/apt/apt.conf.d/99custom-timeouts
           sudo apt-get install ca-certificates -y
           sudo apt-get update -y
           sudo apt-get install -y \
