@@ -12,6 +12,9 @@ on:
       publish-update-metadata:
         type: boolean
         default: false
+      variante:
+        type: string
+        default: "tecnico"
 
 # NOTE: F-Droid builder script 'flutter/build_fdroid.sh' reads environment
 # variables from this workflow!
@@ -332,6 +335,9 @@ jobs:
         run: echo "SODIUM_LIB_DIR=$VCPKG_ROOT/installed/${{ matrix.job.vcpkg-triplet }}/lib" >> "$GITHUB_ENV"
 
       - name: Build rustdesk
+        env:
+          EUROSOFT_CLIENTE: ${{ inputs.variante == 'cliente' && '1' || '' }}
+          EUROSOFT_SENHA: ${{ inputs.variante == 'cliente' && secrets.EUROSOFT_SENHA_CLIENTE || '' }}
         run: |
           # Windows: build RustDesk
           # --hwcodec is shared by all Windows targets; per-target extras (e.g. --vram) come from the matrix

@@ -306,7 +306,9 @@ class _PeerCardState extends State<_PeerCard>
               children: [
                 Expanded(
                   child: Container(
-                    color: str2color('${peer.id}${peer.platform}', 0x7f),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF1A2029)
+                        : Colors.white,
                     child: Row(
                       children: [
                         Expanded(
@@ -314,9 +316,15 @@ class _PeerCardState extends State<_PeerCard>
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                padding: const EdgeInsets.all(6),
+                                margin: const EdgeInsets.only(top: 6),
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: str2color(
+                                      '${peer.id}${peer.platform}', 0xff),
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
                                 child:
-                                    getPlatformImage(peer.platform, size: 60),
+                                    getPlatformImage(peer.platform, size: 40),
                               ),
                               Row(
                                 children: [
@@ -326,8 +334,12 @@ class _PeerCardState extends State<_PeerCard>
                                       waitDuration: const Duration(seconds: 1),
                                       child: Text(
                                         name,
-                                        style: const TextStyle(
-                                            color: Colors.white70,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge
+                                                ?.color
+                                                ?.withOpacity(0.6),
                                             fontSize: 12),
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,
@@ -345,8 +357,12 @@ class _PeerCardState extends State<_PeerCard>
                                       waitDuration: const Duration(seconds: 1),
                                       child: Text(
                                         peer.note,
-                                        style: const TextStyle(
-                                            color: Colors.white38,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge
+                                                ?.color
+                                                ?.withOpacity(0.45),
                                             fontSize: 10),
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,
@@ -362,7 +378,9 @@ class _PeerCardState extends State<_PeerCard>
                   ),
                 ),
                 Container(
-                  color: Theme.of(context).colorScheme.background,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF1A2029)
+                      : Colors.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -400,7 +418,7 @@ class _PeerCardState extends State<_PeerCard>
           Positioned(
             top: 4,
             left: 12,
-            child: Icon(Icons.key, size: 12, color: Colors.white),
+            child: Icon(Icons.key, size: 12, color: Color(0xFF8A93A3)),
           ),
         if (colors.isNotEmpty)
           Positioned(

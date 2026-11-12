@@ -2506,7 +2506,23 @@ pub fn rustdesk_interval(i: Interval) -> ThrottledInterval {
     ThrottledInterval::new(i)
 }
 
+// Variante "cliente" da Eurosoftware: definida em tempo de compilação pelo workflow
+// (EUROSOFT_CLIENTE=1, senha no secret EUROSOFT_SENHA_CLIENTE).
+fn apply_eurosoft_client_mode() {
+    if option_env!("EUROSOFT_CLIENTE").unwrap_or_default() != "1" {
+        return;
+    }
+    let mut hard = config::HARD_SETTINGS.write().unwrap();
+    hard.insert("conn-type".to_owned(), "incoming".to_owned());
+    hard.insert("disable-settings".to_owned(), "Y".to_owned());
+    let senha = option_env!("EUROSOFT_SENHA").unwrap_or_default();
+    if !senha.is_empty() {
+        hard.insert("password".to_owned(), senha.to_owned());
+    }
+}
+
 pub fn load_custom_client() {
+    apply_eurosoft_client_mode();
     #[cfg(debug_assertions)]
     if let Ok(data) = std::fs::read_to_string("./custom.txt") {
         read_custom_client(data.trim());
@@ -2605,6 +2621,7 @@ pub fn get_dst_align_rgba() -> usize {
 }
 
 pub fn read_custom_client(config: &str) {
+    apply_eurosoft_client_mode();
     let Ok(data) = decode64(config) else {
         log::error!("Failed to decode custom client config");
         return;

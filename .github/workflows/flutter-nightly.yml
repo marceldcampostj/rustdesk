@@ -1,10 +1,19 @@
 name: Flutter Nightly Build
+run-name: Build ${{ inputs.variante || 'tecnico' }}
 
 on:
   schedule:
     # schedule build every night
     - cron: "0 0 * * *"
   workflow_dispatch:
+    inputs:
+      variante:
+        description: "tecnico = programa completo; cliente = só mostra o ID, com senha padrão (secret EUROSOFT_SENHA_CLIENTE)"
+        type: choice
+        options:
+          - tecnico
+          - cliente
+        default: tecnico
 
 jobs:
   run-flutter-nightly-build:
@@ -13,3 +22,4 @@ jobs:
     with:
       upload-artifact: true
       upload-tag: "nightly"
+      variante: ${{ inputs.variante || 'tecnico' }}

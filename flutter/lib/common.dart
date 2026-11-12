@@ -248,17 +248,17 @@ class ColorThemeExtension extends ThemeExtension<ColorThemeExtension> {
 class MyTheme {
   MyTheme._();
 
-  static const Color grayBg = Color(0xFFEFEFF2);
-  static const Color accent = Color(0xFF0071FF);
-  static const Color accent50 = Color(0x770071FF);
-  static const Color accent80 = Color(0xAA0071FF);
+  static const Color grayBg = Color(0xFFF5F7FA);
+  static const Color accent = Color(0xFF2563C9);
+  static const Color accent50 = Color(0x772563C9);
+  static const Color accent80 = Color(0xAA2563C9);
   static const Color canvasColor = Color(0xFF212121);
   static const Color border = Color(0xFFCCCCCC);
-  static const Color idColor = Color(0xFF00B6F0);
+  static const Color idColor = Color(0xFF1D4FA3);
   static const Color darkGray = Color.fromARGB(255, 148, 148, 148);
   static const Color cmIdColor = Color(0xFF21790B);
   static const Color dark = Colors.black87;
-  static const Color button = Color(0xFF2C8CFF);
+  static const Color button = Color(0xFF2563C9);
   static const Color hoverBorder = Color(0xFF999999);
 
   // ListTile
@@ -396,7 +396,7 @@ class MyTheme {
             filled: true,
             isDense: true,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(12),
             ),
           )
         : null,
@@ -431,7 +431,7 @@ class MyTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: MyTheme.accent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(12.0),
         ),
       ),
     ),
@@ -440,7 +440,7 @@ class MyTheme {
         backgroundColor: grayBg,
         foregroundColor: Colors.black87,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(12.0),
         ),
       ),
     ),
@@ -452,7 +452,7 @@ class MyTheme {
         style:
             MenuStyle(backgroundColor: MaterialStatePropertyAll(Colors.white))),
     colorScheme: ColorScheme.light(
-        primary: Colors.blue, secondary: accent, background: grayBg),
+        primary: accent, secondary: accent, background: grayBg),
     popupMenuTheme: PopupMenuThemeData(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -472,8 +472,8 @@ class MyTheme {
     useMaterial3: false,
     brightness: Brightness.dark,
     hoverColor: Color.fromARGB(255, 45, 46, 53),
-    scaffoldBackgroundColor: Color(0xFF18191E),
-    dialogBackgroundColor: Color(0xFF18191E),
+    scaffoldBackgroundColor: Color(0xFF0F1318),
+    dialogBackgroundColor: Color(0xFF141920),
     appBarTheme: AppBarTheme(
       shadowColor: Colors.transparent,
     ),
@@ -490,11 +490,11 @@ class MyTheme {
     scrollbarTheme: scrollbarThemeDark,
     inputDecorationTheme: (isDesktop || isWebDesktop)
         ? InputDecorationTheme(
-            fillColor: Color(0xFF24252B),
+            fillColor: Color(0xFF1A2029),
             filled: true,
             isDense: true,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(12),
             ),
           )
         : null,
@@ -509,7 +509,7 @@ class MyTheme {
         color: accent80,
       ),
     ),
-    cardColor: Color(0xFF24252B),
+    cardColor: Color(0xFF1A2029),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     tabBarTheme: const TabBarTheme(
       labelColor: Colors.white70,
@@ -537,7 +537,7 @@ class MyTheme {
         disabledForegroundColor: Colors.white70,
         disabledBackgroundColor: Colors.white10,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(12.0),
         ),
       ),
     ),
@@ -548,7 +548,7 @@ class MyTheme {
         disabledForegroundColor: Colors.white70,
         foregroundColor: Colors.white70,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(12.0),
         ),
       ),
     ),
@@ -560,9 +560,9 @@ class MyTheme {
         style: MenuStyle(
             backgroundColor: MaterialStatePropertyAll(Color(0xFF121212)))),
     colorScheme: ColorScheme.dark(
-      primary: Colors.blue,
+      primary: Color(0xFF7FB0F5),
       secondary: accent,
-      background: Color(0xFF24252B),
+      background: Color(0xFF141920),
     ),
     popupMenuTheme: PopupMenuThemeData(
         shape: RoundedRectangleBorder(

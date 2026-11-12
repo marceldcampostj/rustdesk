@@ -376,12 +376,23 @@ class _ConnectionPageState extends State<ConnectionPage>
   /// UI for the remote ID TextField.
   /// Search for a peer.
   Widget _buildRemoteIDTextField(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     var w = Container(
-      width: 320 + 20 * 2,
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 22),
+      width: 400,
+      padding: const EdgeInsets.fromLTRB(24, 22, 24, 22),
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(13)),
-          border: Border.all(color: Theme.of(context).colorScheme.background)),
+          color: isDark ? Theme.of(context).cardColor : Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+          border: Border.all(
+              color: isDark ? const Color(0xFF262E3A) : const Color(0xFFE3E8EF)),
+          boxShadow: isDark
+              ? null
+              : const [
+                  BoxShadow(
+                      color: Color(0x14101828),
+                      blurRadius: 6,
+                      offset: Offset(0, 2))
+                ]),
       child: Ink(
         child: Column(
           children: [
@@ -517,7 +528,7 @@ class _ConnectionPageState extends State<ConnectionPage>
                                 child: ConstrainedBox(
                                   constraints: BoxConstraints(
                                     maxHeight: maxHeight,
-                                    maxWidth: 319,
+                                    maxWidth: 351,
                                   ),
                                   child: _allPeersLoader.peers.isEmpty &&
                                           !_allPeersLoader.isPeersLoaded
@@ -552,21 +563,27 @@ class _ConnectionPageState extends State<ConnectionPage>
               padding: const EdgeInsets.only(top: 13.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 SizedBox(
-                  height: 28.0,
+                  height: 40.0,
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      elevation: 0,
+                    ),
                     onPressed: () {
                       onConnect();
                     },
-                    child: Text(translate("Connect")),
+                    child: Text(translate("Connect"),
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w600)),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  height: 28.0,
-                  width: 28.0,
+                  height: 40.0,
+                  width: 40.0,
                   decoration: BoxDecoration(
                     border: Border.all(color: Theme.of(context).dividerColor),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
                     child: StatefulBuilder(

@@ -90,8 +90,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         child: loadLogo(),
       ),
       buildTip(context),
-      if (!isOutgoingOnly) buildIDBoard(context),
-      if (!isOutgoingOnly) buildPasswordBoard(context),
+      if (!isOutgoingOnly) _buildCredentialsCard(context, isIncomingOnly),
       FutureBuilder<Widget>(
         future: Future.value(
             Obx(() => buildHelpCards(stateGlobal.updateUrl.value))),
@@ -129,8 +128,8 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     return ChangeNotifierProvider.value(
       value: gFFI.serverModel,
       child: Container(
-        width: isIncomingOnly ? 280.0 : 200.0,
-        color: Theme.of(context).colorScheme.background,
+        width: isIncomingOnly ? 280.0 : 240.0,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Stack(
           children: [
             Column(
@@ -180,24 +179,61 @@ class _DesktopHomePageState extends State<DesktopHomePage>
 
   buildRightPane(BuildContext context) {
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: Theme.of(context).colorScheme.background,
       child: ConnectionPage(),
+    );
+  }
+
+  Widget _buildCredentialsCard(BuildContext context, bool isIncomingOnly) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final borderCol = isDark ? const Color(0xFF262E3A) : const Color(0xFFE3E8EF);
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 14, 16, 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: isDark ? Theme.of(context).cardColor : Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: borderCol),
+        boxShadow: isDark
+            ? null
+            : const [
+                BoxShadow(
+                    color: Color(0x14101828),
+                    blurRadius: 6,
+                    offset: Offset(0, 2))
+              ],
+      ),
+      child: Column(
+        children: [
+          buildIDBoard(context),
+          if (!isIncomingOnly) Divider(height: 1, color: borderCol),
+          if (!isIncomingOnly) buildPasswordBoard(context),
+          // Cliente com senha padrão: mostra só o ID.
+          if (isIncomingOnly)
+            FutureBuilder<bool>(
+              future: bind.isPresetPassword(),
+              builder: (context, snapshot) {
+                if (snapshot.data != false) return const SizedBox.shrink();
+                return Column(children: [
+                  Divider(height: 1, color: borderCol),
+                  buildPasswordBoard(context),
+                ]);
+              },
+            ),
+        ],
+      ),
     );
   }
 
   buildIDBoard(BuildContext context) {
     final model = gFFI.serverModel;
     return Container(
-      margin: const EdgeInsets.only(left: 20, right: 11),
-      height: 57,
+      margin: const EdgeInsets.only(left: 12, right: 8),
+      height: 68,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: [
-          Container(
-            width: 2,
-            decoration: const BoxDecoration(color: MyTheme.accent),
-          ).marginOnly(top: 5),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 7),
@@ -213,7 +249,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                         Text(
                           translate("ID"),
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.5,
                               color: Theme.of(context)
                                   .textTheme
                                   .titleLarge
@@ -239,7 +277,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                           contentPadding: EdgeInsets.only(top: 10, bottom: 10),
                         ),
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: bind.isIncomingOnly() ? 26 : 22,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? const Color(0xFF7FB0F5)
+                              : MyTheme.idColor,
                         ),
                       ).workaroundFreezeLinuxMint(),
                     ),
@@ -295,16 +337,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     final showOneTime = model.approveMode != 'click' &&
         model.verificationMethod != kUsePermanentPassword;
     return Container(
-      margin: EdgeInsets.only(left: 20.0, right: 16, top: 13, bottom: 13),
+      margin: EdgeInsets.only(left: 12.0, right: 8, top: 10, bottom: 6),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: [
-          Container(
-            width: 2,
-            height: 52,
-            decoration: BoxDecoration(color: MyTheme.accent),
-          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 7),
@@ -314,7 +351,10 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                   AutoSizeText(
                     translate("One-time Password"),
                     style: TextStyle(
-                        fontSize: 14, color: textColor?.withOpacity(0.5)),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                        color: textColor?.withOpacity(0.6)),
                     maxLines: 1,
                   ),
                   Row(
@@ -336,7 +376,10 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                               contentPadding:
                                   EdgeInsets.only(top: 14, bottom: 10),
                             ),
-                            style: TextStyle(fontSize: 15),
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 2),
                           ).workaroundFreezeLinuxMint(),
                         ),
                       ),
